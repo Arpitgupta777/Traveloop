@@ -33,13 +33,13 @@ The application includes a comprehensive set of features to ensure a rich and us
 
 This project was built collaboratively during the hackathon by team: 
 
-### **Dharmesh Gupta - Frontend & UI/UX Developer**
+1. **Dharmesh Gupta - Frontend & UI/UX Developer**
 
-### **Yash Variya - Backend Developer (Views & Logic)**
+2. **Yash Variya - Backend Developer (Views & Logic)**
 
-### **Arpit Gupta - Database Administrator & Modeler**
+3. **Arpit Gupta - Database Administrator & Modeler**
 
-### **Anant Koli - QA, Testing & DevOps**
+4. **Anant Koli - QA, Testing & DevOps**
 
 ---
 
