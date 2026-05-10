@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Traveloop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style type="text/tailwindcss">
+        @layer base {
+            input[type="text"], input[type="password"], input[type="email"] {
+                @apply w-full border border-gray-300 rounded-lg shadow-sm px-4 py-3 mt-1 mb-4 focus:ring-teal-500 focus:border-teal-500 transition;
+            }
+            label { @apply block text-sm font-semibold text-gray-700 mb-1 text-left; }
+            ul.errorlist { @apply text-red-500 text-xs text-left mb-4 list-disc pl-5; }
+            span.helptext { @apply text-xs text-gray-400 block text-left mb-4; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans py-10">
+    
+    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-200 text-center">
+        <h1 class="text-3xl font-extrabold text-teal-700 mb-2"><i class="fa-solid fa-backpack mr-2"></i>Join Traveloop</h1>
+        <p class="text-gray-500 mb-8">Create an account to start planning your next adventure.</p>
+        
+        <form method="POST" class="text-left">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 rounded-lg shadow-md transition mt-4 text-lg">Create Account</button>
+        </form>
+        
+        <p class="mt-6 text-sm text-gray-600 pt-4 border-t border-gray-100">
+            Already have an account? <a href="{% url 'login' %}" class="text-indigo-600 hover:text-indigo-800 font-bold">Log in</a>
+        </p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends 'trip/base.html' %}
+{% block title %}My Dashboard - Traveloop{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-gray-200 pb-6">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-4 md:mb-0"><i class="fa-solid fa-table-columns mr-2 text-indigo-600"></i> My Dashboard</h1>
+    <a href="{% url 'create_trip' %}" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg shadow transition flex items-center">
+        <i class="fa-solid fa-plus mr-2"></i> Plan a New Trip
+    </a>
+</div>
+
+<section class="mb-12">
+    <h2 class="text-xl font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-route mr-2 text-teal-500"></i> Ongoing Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for trip in ongoing_trips %}
+            <div class="bg-white border-l-4 border-teal-500 p-6 rounded-r-xl shadow-md hover:shadow-lg transition">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p class="text-gray-600 text-sm mb-4">{{ trip.description|truncatewords:10 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-teal-600 hover:text-teal-800 font-bold text-sm transition">Manage Trip &rarr;</a>
+            </div>
+        {% empty %}
+            <p class="text-gray-500 italic col-span-full">No ongoing trips.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="mb-12">
+    <h2 class="text-xl font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-rocket mr-2 text-indigo-500"></i> Upcoming Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for trip in future_trips %}
+            <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p class="text-gray-600 text-sm mb-4">{{ trip.description|truncatewords:10 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-indigo-600 hover:text-indigo-800 font-bold text-sm transition">View Itinerary &rarr;</a>
+            </div>
+        {% empty %}
+            <p class="text-gray-500 italic col-span-full bg-gray-100 p-6 rounded-xl text-center">No upcoming trips. Time to start planning!</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center"><i class="fa-solid fa-clock-rotate-left mr-2 text-gray-400"></i> Previous Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for trip in completed_trips %}
+            <div class="bg-gray-100 border border-gray-200 p-6 rounded-xl">
+                <h3 class="text-lg font-bold text-gray-600 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-gray-600 hover:text-gray-900 font-bold text-sm transition">View Past Itinerary &rarr;</a>
+            </div>
+        {% empty %}
+            <p class="text-gray-500 italic col-span-full">No previous trips yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
