@@ -1,5 +1,5 @@
 from django import forms
-from .models import Trip, ItineraryStop, UserProfile,PackingItem, PlannedActivity, TripNote # <-- Update imports!
+from .models import Trip, ItineraryStop, UserProfile,PackingItem, PlannedActivity, TripNote
 from django.contrib.auth.models import User
 
 
@@ -13,7 +13,7 @@ class TripForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 3}),
         }
 
-# --- ADD THESE NEW FORMS BELOW ---
+
 
 class StopForm(forms.ModelForm):
     class Meta:
