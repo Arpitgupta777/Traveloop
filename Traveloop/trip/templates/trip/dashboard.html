@@ -1,55 +1,58 @@
 {% extends 'trip/base.html' %}
-
 {% block title %}My Dashboard - Traveloop{% endblock %}
 
 {% block content %}
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h1 style="margin: 0;">My Dashboard</h1>
-        <a href="{% url 'create_trip' %}" class="btn btn-primary">+ Plan a New Trip</a>
-    </div>
-    
-    <hr style="margin-bottom: 30px;">
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-gray-200 pb-6">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-4 md:mb-0"><i class="fa-solid fa-table-columns mr-2 text-indigo-600"></i> My Dashboard</h1>
+    <a href="{% url 'create_trip' %}" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg shadow transition flex items-center">
+        <i class="fa-solid fa-plus mr-2"></i> Plan a New Trip
+    </a>
+</div>
 
-    <h2 style="color: #2c3e50;"> Ongoing Trips</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+<section class="mb-12">
+    <h2 class="text-xl font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-route mr-2 text-teal-500"></i> Ongoing Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for trip in ongoing_trips %}
-            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff;">
-                <h3 style="margin-top: 0;">{{ trip.name }}</h3>
-                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
-                <p>{{ trip.description|truncatewords:15 }}</p>
-                <a href="{% url 'trip_detail' trip.id %}" style="color: #007BFF; font-weight: bold; text-decoration: none;">View Itinerary &rarr;</a>
+            <div class="bg-white border-l-4 border-teal-500 p-6 rounded-r-xl shadow-md hover:shadow-lg transition">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p class="text-gray-600 text-sm mb-4">{{ trip.description|truncatewords:10 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-teal-600 hover:text-teal-800 font-bold text-sm transition">Manage Trip &rarr;</a>
             </div>
         {% empty %}
-            <p style="color: gray;">No upcoming trips. Time to start planning!</p>
+            <p class="text-gray-500 italic col-span-full">No ongoing trips.</p>
         {% endfor %}
     </div>
+</section>
 
-
-    <h2 style="color: #2c3e50;">🚀 Upcoming Trips</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+<section class="mb-12">
+    <h2 class="text-xl font-bold text-indigo-900 mb-4 flex items-center"><i class="fa-solid fa-rocket mr-2 text-indigo-500"></i> Upcoming Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for trip in future_trips %}
-            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff;">
-                <h3 style="margin-top: 0;">{{ trip.name }}</h3>
-                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
-                <p>{{ trip.description|truncatewords:15 }}</p>
-                <a href="{% url 'trip_detail' trip.id %}" style="color: #007BFF; font-weight: bold; text-decoration: none;">View Itinerary &rarr;</a>
+            <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p class="text-gray-600 text-sm mb-4">{{ trip.description|truncatewords:10 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-indigo-600 hover:text-indigo-800 font-bold text-sm transition">View Itinerary &rarr;</a>
             </div>
         {% empty %}
-            <p style="color: gray;">No upcoming trips. Time to start planning!</p>
+            <p class="text-gray-500 italic col-span-full bg-gray-100 p-6 rounded-xl text-center">No upcoming trips. Time to start planning!</p>
         {% endfor %}
     </div>
+</section>
 
-    <h2 style="color: #2c3e50;">🕰️ Previous Trips</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<section>
+    <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center"><i class="fa-solid fa-clock-rotate-left mr-2 text-gray-400"></i> Previous Trips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for trip in completed_trips %}
-            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #f9f9f9;">
-                <h3 style="margin-top: 0; color: #666;">{{ trip.name }}</h3>
-                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
-                <a href="{% url 'trip_detail' trip.id %}" style="color: #666; font-weight: bold; text-decoration: none;">View Past Itinerary &rarr;</a>
+            <div class="bg-gray-100 border border-gray-200 p-6 rounded-xl">
+                <h3 class="text-lg font-bold text-gray-600 mb-2">{{ trip.name }}</h3>
+                <p class="text-sm text-gray-500 font-medium mb-3"><i class="fa-regular fa-calendar mr-1"></i> {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" class="inline-block text-gray-600 hover:text-gray-900 font-bold text-sm transition">View Past Itinerary &rarr;</a>
             </div>
         {% empty %}
-            <p style="color: gray;">No previous trips yet.</p>
+            <p class="text-gray-500 italic col-span-full">No previous trips yet.</p>
         {% endfor %}
     </div>
-
+</section>
 {% endblock %}
