@@ -2,64 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Traveloop{% endblock %}</title>
-    <style>
-        /* GLOBAL CSS - Write it once, use it everywhere! */
-        body { font-family: sans-serif; margin: 0; background: #f8f9fa; color: #333; }
-        
-        /* The Navigation Bar & User Card */
-        .navbar { background: #2c3e50; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .navbar a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; }
-        .navbar a:hover { color: #3498db; }
-        
-        /* The main content box */
-        .container { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        /* Global Buttons */
-        .btn { padding: 10px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; border: none; font-size: 1em; }
-        .btn-primary { background: #007BFF; color: white; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-danger { background: #dc3545; color: white; }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style type="text/tailwindcss">
+        @layer base {
+            input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
+                @apply w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2 mt-1 mb-4 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors;
+            }
+            label {
+                @apply block text-sm font-semibold text-gray-700 mb-1;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
-    <div class="navbar">
-       <div class="logo" style="display: flex; align-items: center;">
-            <a href="{% url 'home' %}" style="font-size: 1.5em; margin-left: 0;">✈️ Traveloop</a>
-            <a href="{% url 'community' %}" style="margin-left: 30px; font-weight: normal;">🌍 Community</a>
-        </div>
-        
-        <div class="user-card">
-            {% if user.is_authenticated %}
+    <nav class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="{% url 'home' %}" class="text-2xl font-extrabold tracking-tight hover:text-indigo-200 transition flex items-center">
+                        <i class="fa-solid fa-plane-departure mr-2"></i> Traveloop
+                    </a>
+                    <a href="{% url 'community' %}" class="text-indigo-100 hover:text-white font-medium transition flex items-center">
+                        <i class="fa-solid fa-earth-americas mr-2"></i> Community
+                    </a>
+                </div>
                 
-                <a href="{% url 'profile' %}" style="margin-right: 15px; background: #34495e; padding: 8px 12px; border-radius: 20px; text-decoration: none; color: white; display: inline-flex; align-items: center;">
-                    {% if user.userprofile.profile_picture %}
-                        <img src="{{ user.userprofile.profile_picture.url }}" width="25" height="25" style="border-radius: 50%; object-fit: cover; margin-right: 8px;">
+                <div class="flex items-center space-x-6">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="flex items-center bg-indigo-800 hover:bg-indigo-700 px-4 py-1.5 rounded-full transition text-sm font-medium shadow-inner border border-indigo-700">
+                            {% if user.userprofile.profile_picture %}
+                                <img src="{{ user.userprofile.profile_picture.url }}" class="w-7 h-7 rounded-full object-cover mr-2 border-2 border-indigo-300">
+                            {% else %}
+                                <i class="fa-solid fa-circle-user text-xl mr-2 text-indigo-300"></i>
+                            {% endif %}
+                            {{ user.username }}
+                        </a>
+                        <a href="{% url 'dashboard' %}" class="text-indigo-100 hover:text-white font-medium transition">Dashboard</a>
+                        <form action="{% url 'logout' %}" method="post" class="inline m-0 p-0">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-400 hover:text-red-300 font-bold transition flex items-center">
+                                <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+                            </button>
+                        </form>
                     {% else %}
-                        <span style="margin-right: 8px;">👤</span>
+                        <a href="{% url 'login' %}" class="text-indigo-100 hover:text-white font-medium transition">Login</a>
+                        <a href="{% url 'register' %}" class="bg-teal-500 hover:bg-teal-400 text-white px-5 py-2 rounded-lg font-bold transition shadow-md">Sign Up</a>
                     {% endif %}
-                    {{ user.username }}
-                </a>
+                </div>
+           </div>
+       </div>
+    </nav>
 
-                <a href="{% url 'dashboard' %}">Dashboard</a>
-                
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-weight: bold; font-size: 1em; margin-left: 15px;">Logout</button>
-                </form>
-                
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}" class="btn btn-success" style="margin-left: 20px;">Sign Up</a>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="container">
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 text-gray-500 text-center py-6 mt-auto">
+        <p class="mb-0 text-sm">&copy; 2026 Traveloop. Plan your next adventure.</p>
+    </footer>
 
 </body>
 </html>
