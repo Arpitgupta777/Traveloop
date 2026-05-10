@@ -1,0 +1,28 @@
+{% extends 'trip/base.html' %}
+{% block title %}Welcome to Traveloop{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 20px;">
+    <h1 style="font-size: 3em; margin-bottom: 10px;">Plan Your Dream Trip.</h1>
+    <p style="font-size: 1.2em; color: #666; margin-bottom: 40px;">
+        The ultimate personalized travel planner. Build itineraries, track budgets, and pack smart all in one place.
+    </p>
+    <a href="{% url 'register' %}" class="btn btn-primary" style="font-size: 1.3em; padding: 15px 30px;">
+        Start Planning for Free
+    </a>
+</div>
+
+<hr style="margin: 40px 0;">
+
+<h2 style="text-align: center; margin-bottom: 30px;">Get Inspired by the Community</h2>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+    {% for trip in public_trips %}
+        <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h4 style="margin: 0;">{{ trip.name }}</h4>
+            <small style="color: gray;">By {{ trip.user.username }}</small>
+            <p style="font-size: 0.9em;">{{ trip.description|truncatewords:10 }}</p>
+            <a href="{% url 'public_trip_detail' trip.id %}" style="color: #007BFF; text-decoration: none; font-size: 0.9em; font-weight: bold;">View &rarr;</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

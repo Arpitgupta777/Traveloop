@@ -1,0 +1,119 @@
+{% extends 'trip/base.html' %}
+
+{% block content %}
+
+    <a href="{% url 'dashboard' %}">&larr; Back to Dashboard</a>
+    
+    <h1 style="margin-bottom: 5px;">🗺️ {{ trip.name }}</h1>
+    <p style="margin-top: 0; color: gray;">{{ trip.start_date }} to {{ trip.end_date }}</p>
+    
+    <div class="budget-card">
+        <div class="budget-header">
+            <h2 style="margin: 0;">Total Budget</h2>
+            <h2 style="margin: 0; color: #28a745;">${{ total_budget }}</h2>
+        </div>
+        
+        <h4 style="margin-top: 0;">Cost Breakdown:</h4>
+        <ul style="margin: 0; padding-left: 20px;">
+            {% for category in category_costs %}
+                <li><strong>{{ category.category }}:</strong> ${{ category.total }}</li>
+            {% empty %}
+                <li style="color: gray; list-style: none;">Add activities to see your budget breakdown.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin: 0;">Itinerary</h3>
+    </div>
+
+{% for stop in trip.stops.all %}
+        <div class="stop-box">
+            <h2>📍 {{ stop.city_name }}</h2>
+            <p style="color: gray; margin-top: 0;">{{ stop.arrival_date }} to {{ stop.departure_date }}</p>
+            
+            {% for activity in stop.activities.all %}
+                <div class="activity-item">
+                    <strong>{{ activity.activity_name }}</strong> <span style="font-size: 0.8em; color: gray;">({{ activity.category }})</span><br>
+                    Cost: ${{ activity.estimated_cost }} | Time: {{ activity.scheduled_time|default:"TBD" }}
+                </div>
+            {% empty %}
+                <p style="font-size: 0.9em; color: gray;">No activities planned here yet.</p>
+            {% endfor %}
+            
+            <details style="margin-top: 15px;">
+                <summary class="btn" style="font-size: 0.8em; cursor: pointer; list-style: none; display: inline-block;">+ Add Activity</summary>
+                <div style="background: #f1f1f1; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                    <form action="{% url 'add_activity' stop.id %}" method="POST" style="margin: 0;">
+                        {% csrf_token %}
+                        {{ activity_form.as_p }}
+                        <button type="submit" class="btn" style="background: #28a745;">Save Activity</button>
+                    </form>
+                </div>
+            </details>
+        </div>
+    {% endfor %}
+
+    <details style="margin-top: 20px;">
+        <summary class="btn" style="background:#28a745; cursor: pointer; list-style: none; display: inline-block;">+ Add a City</summary>
+        <div style="background: #e9ecef; padding: 15px; border-radius: 5px; border: 1px solid #ccc; margin-top: 10px;">
+            <form action="{% url 'add_stop' trip.id %}" method="POST" style="margin: 0;">
+                {% csrf_token %}
+                {{ stop_form.as_p }}
+                <button type="submit" class="btn">Save City</button>
+            </form>
+        </div>
+    </details>
+
+    <hr style="margin-top: 40px;">
+
+    <div class="grid-2">
+        
+        <div>
+            <h3>🎒 Packing List</h3>
+            <div style="background: #f8f9fa; border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
+                {% for item in trip.packing_items.all %}
+                    <div class="packing-item">
+                        <form action="{% url 'toggle_packing_item' item.id %}" method="POST" style="margin: 0; display: inline-block;">
+                            {% csrf_token %}
+                            <input type="checkbox" onChange="this.form.submit()" style="margin-right: 10px;" {% if item.is_packed %}checked{% endif %}>
+                        </form>
+                        
+                        <span {% if item.is_packed %}style="text-decoration: line-through; color: gray;"{% endif %}>
+                            {{ item.item_name }}
+                        </span>
+                    </div>
+                {% empty %}
+                    <p style="color: gray; font-size: 0.9em;">Nothing to pack yet.</p>
+                {% endfor %}
+                
+                <form method="POST" style="margin-top: 15px; display: flex;">
+                    {% csrf_token %}
+                    {{ packing_form.as_p }}
+                    <button type="submit" class="btn" style="margin-top: 0; margin-left: 5px;">Add</button>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <h3>📝 Notes</h3>
+            {% for note in trip.notes.all %}
+                <div class="note-card">
+                    <p style="margin: 0;">{{ note.content }}</p>
+                </div>
+            {% empty %}
+                <p style="color: gray; font-size: 0.9em;">No notes added yet.</p>
+            {% endfor %}
+
+            <form method="POST" style="margin-top: 15px;">
+                {% csrf_token %}
+                {{ note_form.as_p }}
+                <button type="submit" class="btn" style="background: #ffc107; color: #333; font-weight: bold; margin-top: 0;">Save Note</button>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

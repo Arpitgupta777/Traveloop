@@ -1,0 +1,17 @@
+
+{% extends 'trip/base.html' %}
+
+{% block content %}
+
+<h1>🗺️ Plan a New Trip</h1>
+    <hr>
+
+    <form method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        
+        <br>
+        <button type="submit" class="btn">Save Trip</button>
+        <a href="{% url 'dashboard' %}" class="btn-cancel">Cancel</a>
+    </form>
+
+{% endblock %}

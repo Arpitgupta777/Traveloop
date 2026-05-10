@@ -1,0 +1,30 @@
+{% extends 'trip/base.html' %}
+{% block title %}{{ trip.name }} - Traveloop{% endblock %}
+
+{% block content %}
+    <a href="javascript:history.back()">&larr; Back</a>
+    
+    <h1>🗺️ {{ trip.name }} <span style="font-size: 0.5em; background: #eee; padding: 5px 10px; border-radius: 15px; color: gray;">Public Trip by {{ trip.user.username }}</span></h1>
+    <p style="color: gray;">{{ trip.start_date }} to {{ trip.end_date }}</p>
+
+    <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+        <h3 style="margin: 0;">Estimated Budget: <span style="color: #28a745;">${{ total_budget }}</span></h3>
+    </div>
+
+    <h3>Itinerary</h3>
+    {% for stop in trip.stops.all %}
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fff;">
+            <h2 style="margin-top: 0;">📍 {{ stop.city_name }}</h2>
+            <p style="color: gray;">{{ stop.arrival_date }} to {{ stop.departure_date }}</p>
+            
+            {% for activity in stop.activities.all %}
+                <div style="border-left: 4px solid #007BFF; padding-left: 10px; margin: 10px 0; background: #f9f9f9; padding: 10px;">
+                    <strong>{{ activity.activity_name }}</strong> <span style="color: gray;">({{ activity.category }})</span><br>
+                    Cost: ${{ activity.estimated_cost }}
+                </div>
+            {% empty %}
+                <p style="color: gray; font-size: 0.9em;">No activities listed.</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

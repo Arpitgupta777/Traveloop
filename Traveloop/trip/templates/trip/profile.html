@@ -1,0 +1,18 @@
+{% extends 'trip/base.html' %}
+{% block content %}
+    <h1>👤 Edit Profile</h1>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Account Details</h3>
+        {{ u_form.as_p }}
+        
+        <h3>Profile Picture</h3>
+        {% if user.userprofile.profile_picture %}
+            <img src="{{ user.userprofile.profile_picture.url }}" width="100" style="border-radius: 50%; margin-bottom: 10px;">
+        {% endif %}
+        {{ p_form.as_p }}
+        
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Traveloop{% endblock %}</title>
+    <style>
+        /* GLOBAL CSS - Write it once, use it everywhere! */
+        body { font-family: sans-serif; margin: 0; background: #f8f9fa; color: #333; }
+        
+        /* The Navigation Bar & User Card */
+        .navbar { background: #2c3e50; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; }
+        .navbar a:hover { color: #3498db; }
+        
+        /* The main content box */
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Global Buttons */
+        .btn { padding: 10px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; border: none; font-size: 1em; }
+        .btn-primary { background: #007BFF; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+       <div class="logo" style="display: flex; align-items: center;">
+            <a href="{% url 'home' %}" style="font-size: 1.5em; margin-left: 0;">✈️ Traveloop</a>
+            <a href="{% url 'community' %}" style="margin-left: 30px; font-weight: normal;">🌍 Community</a>
+        </div>
+        
+        <div class="user-card">
+            {% if user.is_authenticated %}
+                
+                <a href="{% url 'profile' %}" style="margin-right: 15px; background: #34495e; padding: 8px 12px; border-radius: 20px; text-decoration: none; color: white; display: inline-flex; align-items: center;">
+                    {% if user.userprofile.profile_picture %}
+                        <img src="{{ user.userprofile.profile_picture.url }}" width="25" height="25" style="border-radius: 50%; object-fit: cover; margin-right: 8px;">
+                    {% else %}
+                        <span style="margin-right: 8px;">👤</span>
+                    {% endif %}
+                    {{ user.username }}
+                </a>
+
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-weight: bold; font-size: 1em; margin-left: 15px;">Logout</button>
+                </form>
+                
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-success" style="margin-left: 20px;">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

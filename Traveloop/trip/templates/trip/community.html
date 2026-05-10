@@ -1,0 +1,24 @@
+{% extends 'trip/base.html' %}
+{% block title %}Community - Traveloop{% endblock %}
+
+{% block content %}
+    <h1 style="margin-bottom: 5px;">🌍 Traveloop Community</h1>
+    <p style="color: gray; margin-top: 0;">Get inspired by itineraries from travelers around the world.</p>
+    <hr style="margin-bottom: 30px;">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        {% for trip in trips %}
+            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff;">
+                <h3 style="margin-top: 0;">{{ trip.name }}</h3>
+                <p style="color: gray; font-size: 0.9em;">
+                    Created by: <strong>{{ trip.user.username }}</strong><br>
+                    📅 {{ trip.start_date }} to {{ trip.end_date }}
+                </p>
+                <p>{{ trip.description|truncatewords:15 }}</p>
+                <a href="{% url 'public_trip_detail' trip.id %}" class="btn btn-primary" style="display: inline-block;">View Itinerary</a>
+            </div>
+        {% empty %}
+            <p style="color: gray;">No public trips yet. Be the first to share one!</p>
+        {% endfor %}
+    </div>
+{% endblock %}

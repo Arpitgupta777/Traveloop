@@ -1,0 +1,55 @@
+{% extends 'trip/base.html' %}
+
+{% block title %}My Dashboard - Traveloop{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 style="margin: 0;">My Dashboard</h1>
+        <a href="{% url 'create_trip' %}" class="btn btn-primary">+ Plan a New Trip</a>
+    </div>
+    
+    <hr style="margin-bottom: 30px;">
+
+    <h2 style="color: #2c3e50;"> Ongoing Trips</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+        {% for trip in ongoing_trips %}
+            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff;">
+                <h3 style="margin-top: 0;">{{ trip.name }}</h3>
+                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p>{{ trip.description|truncatewords:15 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" style="color: #007BFF; font-weight: bold; text-decoration: none;">View Itinerary &rarr;</a>
+            </div>
+        {% empty %}
+            <p style="color: gray;">No upcoming trips. Time to start planning!</p>
+        {% endfor %}
+    </div>
+
+
+    <h2 style="color: #2c3e50;">🚀 Upcoming Trips</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+        {% for trip in future_trips %}
+            <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #fff;">
+                <h3 style="margin-top: 0;">{{ trip.name }}</h3>
+                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <p>{{ trip.description|truncatewords:15 }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" style="color: #007BFF; font-weight: bold; text-decoration: none;">View Itinerary &rarr;</a>
+            </div>
+        {% empty %}
+            <p style="color: gray;">No upcoming trips. Time to start planning!</p>
+        {% endfor %}
+    </div>
+
+    <h2 style="color: #2c3e50;">🕰️ Previous Trips</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        {% for trip in completed_trips %}
+            <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                <h3 style="margin-top: 0; color: #666;">{{ trip.name }}</h3>
+                <p style="color: gray; font-size: 0.9em;">📅 {{ trip.start_date }} to {{ trip.end_date }}</p>
+                <a href="{% url 'trip_detail' trip.id %}" style="color: #666; font-weight: bold; text-decoration: none;">View Past Itinerary &rarr;</a>
+            </div>
+        {% empty %}
+            <p style="color: gray;">No previous trips yet.</p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
