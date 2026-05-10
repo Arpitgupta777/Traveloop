@@ -1,15 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth.decorators import login_required
-
 from django.utils import timezone
-
 from django.db.models import Sum
-from .models import Trip
-from .forms import TripForm # <-- Import the form we just made
-from django.shortcuts import get_object_or_404 # <-- Add this to the top imports!
-from .models import Trip, ItineraryStop, PlannedActivity, PackingItem # <-- Ensure all models are imported
-from .forms import PackingItemForm, TripForm, StopForm, ActivityForm, NoteForm # <-- Import the new forms
 
+from .models import Trip, ItineraryStop, PlannedActivity, PackingItem
+from .forms import PackingItemForm, TripForm, StopForm, ActivityForm, NoteForm, TripForm 
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -39,7 +34,7 @@ def dashboard(request):
     }
     return render(request, 'trip/dashboard.html', context)
 
-# --- NEW VIEW BELOW ---
+
 @login_required
 def create_trip(request):
     if request.method == 'POST':
