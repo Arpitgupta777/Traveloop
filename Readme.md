@@ -33,13 +33,15 @@ The application includes a comprehensive set of features to ensure a rich and us
 
 This project was built collaboratively during the hackathon by team: 
 
-1. **Dharmesh Gupta - Frontend & UI/UX Developer**
 
-2. **Yash Variya - Backend Developer (Views & Logic)**
 
-3. **Arpit Gupta - Database Administrator & Modeler**
+1. **Arpit Gupta - DBA & Modeler** 
 
-4. **Anant Koli - QA, Testing & DevOps**
+2. **Anant Koli - DBA, Testing and DevOps**
+
+3. **Yash Variya - Backend Developer (Views & Logic)**
+
+4. **Dharmesh Gupta - Frontend & UI/UX Developer**
 
 ---
 
@@ -50,7 +52,7 @@ Follow these steps to run the Traveloop project locally:
 1. **Clone the repository:**
 
 ```bash
-   git clone [https://github.com/](https://github.com/)[your-github-username]/traveloop.git
+   git clone https://github.com/Arpitgupta777/Traveloop.git
    cd traveloop
 ```
 
